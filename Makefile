@@ -1,7 +1,9 @@
-BINARY_VERSION  ?= v0.22.6
-CURRENT_UPGRADE ?= v0.22.0
-GENESIS_ORIG    ?= genesis.json
-GENESIS_DEST    ?= latest-$(CURRENT_UPGRADE).json
+BINARY_VERSION   ?= v0.22.6
+CURRENT_UPGRADE  ?= v0.22.0
+GENESIS_ORIG     ?= genesis.json
+GENESIS_DEST_DIR ?= $(CACHE_DIR)/$(CURRENT_UPGRADE)
+GENESIS_DEST     := $(GENESIS_DEST_DIR)/genesis.json
+
 LZ4_ARCHIVE     := genesis.json.tar.lz4
 
 BIN_DIR         := $(CACHE_BIN)/$(BINARY_VERSION)
@@ -30,11 +32,14 @@ $(AKASH): $(cache_init)
 .PHONY: install
 install: $(AKASH)
 
-testnetify: $(AKASH)
+$(GENESIS_DEST_DIR):
+	mkdir -p $(GENESIS_DEST_DIR)
+
+testnetify: $(AKASH) $(GENESIS_DEST_DIR)
 	$(AKASH) debug testnetify $(GENESIS_ORIG) $(GENESIS_DEST) -c config-$(CURRENT_UPGRADE).json 
 
 archive: testnetify
-	tar cvf - $(GENESIS_DEST) | lz4 -f - $(LZ4_ARCHIVE)
+	tar cvf - -C $(GENESIS_DEST_DIR) genesis.json | lz4 -f - $(LZ4_ARCHIVE)
 	
 .PHONY: clean
 clean:
