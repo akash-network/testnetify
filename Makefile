@@ -2,7 +2,7 @@ BINARY_VERSION  ?= v0.22.6
 CURRENT_UPGRADE ?= v0.22.0
 GENESIS_ORIG    ?= genesis.json
 GENESIS_DEST    ?= latest-$(CURRENT_UPGRADE).json
-LZ4_ARCHIVE     := $(GENESIS_DEST).tar.lz4
+LZ4_ARCHIVE     := genesis.json.tar.lz4
 
 BIN_DIR         := $(CACHE_BIN)/$(BINARY_VERSION)
 AKASH           := $(BIN_DIR)/akash
