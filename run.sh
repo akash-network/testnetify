@@ -129,7 +129,7 @@ akash export --home=$HOME/.akash > ${GENESIS_ORIG}
 ls -la
 make archive
 ls -la
-mv genesis.json.tar.lz4 ../latest-${AKASH_VER}.json.tar.lz4
-ls -la
+#mv genesis.json.tar.lz4 ../latest-${AKASH_VER}.json.tar.lz4
+#ls -la
 ## ./latest-${AKASH_VER}.json.tar.lz4 - gets published as release by GH Action
 ##curl -T ./latest-${AKASH_VER}.json.tar.lz4 https://transfer.sh; echo

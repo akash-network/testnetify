@@ -34,6 +34,6 @@ jobs:
     - name: Create Release
       run: |
         hub release delete ${{env.AKASH_VER}} || :
-        hub release create ${{env.AKASH_VER}} -m ${{env.AKASH_VER}} -a latest-${{env.AKASH_VER}}.json.tar.lz4
+        hub release create ${{env.AKASH_VER}} -m ${{env.AKASH_VER}} -a genesis.json.tar.lz4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
