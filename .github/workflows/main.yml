@@ -33,7 +33,6 @@ jobs:
 
     - name: Create Release
       run: |
-        hub release delete unknown || :
         hub release delete ${{env.AKASH_VER}} || :
         hub release create ${{env.AKASH_VER}} -m ${{env.AKASH_VER}} -a latest-${{env.AKASH_VER}}.json.tar.lz4
       env:
