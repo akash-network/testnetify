@@ -22,7 +22,7 @@ make archive
 
 ## Deploy result
 
-Archived genesis is `genesis.json.tar.lz4'
+Archived genesis is `genesis.json.tar.lz4`
 
 ## CI: Github Actions
 
