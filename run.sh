@@ -120,7 +120,7 @@ du -sm .
 #cd testnetify
 ##direnv hook bash >> $HOME/.bashrc
 ##. $HOME/.bashrc
-#direnv allow .
+direnv allow
 eval "$(direnv export bash)"
 export GENESIS_ORIG=genesis.json
 ls -la $HOME/.akash/config/
