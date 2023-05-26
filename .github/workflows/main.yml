@@ -1,0 +1,40 @@
+name: Run
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * 1' # At 05:00 (UTC) on Monday, weekly
+
+jobs:
+  run-script:
+    env:
+      AKASH_VER: 'v0.22.0'
+
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Run script
+      env:
+        AKASH_VER: ${{env.AKASH_VER}}
+      run: bash run.sh
+
+    # it expects a tag which we do not do
+    # https://github.com/softprops/action-gh-release/issues/20#issuecomment-1249997598
+    #
+    #- name: ${{env.AKASH_VER}}
+    #  uses: softprops/action-gh-release@v1
+    #  if: startsWith(github.ref, 'refs/tags/')
+    #  with:
+    #    files: latest-${{env.AKASH_VER}}.json.tar.lz4
+
+    - name: Create Release
+      run: |
+        hub release delete unknown || :
+        hub release delete ${{env.AKASH_VER}} || :
+        hub release create ${{env.AKASH_VER}} -m ${{env.AKASH_VER}} -a latest-${{env.AKASH_VER}}.json.tar.lz4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
