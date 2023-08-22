@@ -1,14 +1,15 @@
-BINARY_VERSION   ?= v0.22.8
-CURRENT_UPGRADE  ?= v0.22.0
-export GENESIS_ORIG     ?= genesis.json
-GENESIS_DEST_DIR ?= $(CACHE_DIR)/$(CURRENT_UPGRADE)
-GENESIS_DEST     := $(GENESIS_DEST_DIR)/genesis.json
+BINARY_VERSION          ?= v0.22.8
+CURRENT_UPGRADE         ?= v0.22.0
+GENESIS_DEST_DIR        ?= $(CACHE_DIR)/$(CURRENT_UPGRADE)
+GENESIS_DEST            := $(GENESIS_DEST_DIR)/genesis.json
+GENESIS_ORIG            ?= $(GENESIS_DEST_DIR)/genesis.orig.json
+LZ4_ARCHIVE             ?= $(GENESIS_DEST_DIR)/genesis.json.tar.lz4
+
+export GENESIS_ORIG
 
 CHAIN_TOKEN_DENOM        := uakt
 CHAIN_VALIDATOR_AMOUNT   := 20000000000000000
 CHAIN_VALIDATOR_DELEGATE := 15000000000000000
-
-LZ4_ARCHIVE     := genesis.json.tar.lz4
 
 BIN_DIR         := $(CACHE_BIN)/$(BINARY_VERSION)
 export AKASH    := $(BIN_DIR)/akash
@@ -44,7 +45,7 @@ testnetify: $(AKASH) $(GENESIS_DEST_DIR)
 	$(AKASH) debug testnetify $(GENESIS_ORIG) $(GENESIS_DEST) -c config-$(CURRENT_UPGRADE).json
 
 archive: testnetify
-	tar cvf - -C $(GENESIS_DEST_DIR) genesis.json | lz4 -f - $(LZ4_ARCHIVE)
+	tar cvf - -C $(GENESIS_DEST_DIR) $(GENESIS_ORIG) | lz4 -f - $(LZ4_ARCHIVE)
 	
 .PHONY: clean
 clean:
@@ -57,10 +58,12 @@ $(TESTNETIFY_CONFIG): $(GENESIS_BINARY) $(GOMPLATE) $(GENESIS_CONFIG_TEMPLATE)
 		config-$(UPGRADE_TO).tmpl.json \
 		$(TESTNETIFY_CONFIG)
 
-
-.PHONY: run-node
-run-node: $(AKASH)
+$(GENESIS_ORIG): $(AKASH)
 	./run.sh
 
 .PHONY: run
-run: $(AKASH) $(GENESIS_DEST_DIR) run-node archive
+run: $(AKASH) $(GENESIS_DEST_DIR) $(GENESIS_ORIG) archive
+
+.PHONY: lz4
+lz4:
+	@echo "$(LZ4_ARCHIVE)"

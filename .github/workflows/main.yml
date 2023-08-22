@@ -1,4 +1,4 @@
-name: Run
+name: Testnetify mainnet state
 
 on:
   workflow_dispatch:
@@ -7,24 +7,31 @@ on:
 
 jobs:
   run-script:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest #self-hosted
 
     steps:
     - name: Check out code
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: install dependencies
+      run: |
+        apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4EB27DB2A3B88B8B
+        apt-get update
+        apt-get -y --no-install-recommends install lz4 pv wget jq
     - name: set environment
       uses: HatsuneMiku3939/direnv-action@v1
     - name: get current upgrade name
       run: |
         name=$(git describe --tags $(git rev-list --tags --max-count=1))
-        echo "RELEASE_TAG=${name}" >> $GITHUB_ENV
+        archive=$(make lz4)
+        echo "LZ4_ARTIFACT=${archive}" >> $GITHUB_ENV
     - name: Run script
       run: make run
     - uses: ncipollo/release-action@v1
+      if: ${{ !env.ACT }}
       with:
-        artifacts: genesis.json.tar.lz4
+        artifacts: ${{ env.LZ4_ARTIFACT }}
         allowUpdates: true
         replacesArtifacts: true
         tag: ${{ env.RELEASE_TAG }}
