@@ -6,9 +6,8 @@ on:
     - cron: '0 5 * * 1' # At 05:00 (UTC) on Monday, weekly
 
 jobs:
-  run-script:
-    runs-on: ubuntu-latest
-
+  testnetify:
+    runs-on: self-hosted
     steps:
     - name: Check out code
       uses: actions/checkout@v3
