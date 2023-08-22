@@ -19,7 +19,7 @@ jobs:
     - name: get current upgrade name
       run: |
         name=$(git describe --tags $(git rev-list --tags --max-count=1))
-        run: echo "RELEASE_TAG=${name}" >> $GITHUB_ENV
+        echo "RELEASE_TAG=${name}" >> $GITHUB_ENV
     - name: Run script
       run: make run
     - uses: ncipollo/release-action@v1
