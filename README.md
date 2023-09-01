@@ -50,3 +50,9 @@ Reqs: 2 CPU, 16 GiB RAM, 20 GiB storage
 ## Next steps
 
 If Github API allows, we can probably even automate the GH runner deployment & registration.
+
+## Manual upload
+
+```shell
+gh release upload <tag> .cache/<tag>/genesis.json.tar.lz4
+```

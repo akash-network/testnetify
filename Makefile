@@ -1,5 +1,5 @@
-BINARY_VERSION          ?= v0.22.8
-CURRENT_UPGRADE         ?= v0.22.0
+BINARY_VERSION          ?= v0.24.2
+CURRENT_UPGRADE         ?= v0.24.0
 GENESIS_DEST_DIR        ?= $(CACHE_DIR)/$(CURRENT_UPGRADE)
 GENESIS_DEST            := $(GENESIS_DEST_DIR)/genesis.json
 GENESIS_ORIG            ?= $(GENESIS_DEST_DIR)/genesis.orig.json
@@ -44,15 +44,15 @@ $(GENESIS_DEST_DIR):
 testnetify: $(AKASH) $(GENESIS_DEST_DIR)
 	$(AKASH) debug testnetify $(GENESIS_ORIG) $(GENESIS_DEST) -c config-$(CURRENT_UPGRADE).json
 
-archive: testnetify
-	tar cvf - -C $(GENESIS_DEST_DIR) $(GENESIS_ORIG) | lz4 -f - $(LZ4_ARCHIVE)
+archive:# testnetify
+	(cd $(GENESIS_DEST_DIR); tar cvf - genesis.json | lz4 -f - $(LZ4_ARCHIVE))
 	
 .PHONY: clean
 clean:
 	rm -rf $(CACHE_DIR)
 
 $(TESTNETIFY_CONFIG): $(GENESIS_BINARY) $(GOMPLATE) $(GENESIS_CONFIG_TEMPLATE)
-	$(ROOT_DIR)/script/testnetify-render-config.sh \
+	$(ROOT_DIR)/scripts/testnetify-render-config.sh \
 		$(GENESIS_BINARY) \
 		$(KEY_NAME) \
 		config-$(UPGRADE_TO).tmpl.json \
