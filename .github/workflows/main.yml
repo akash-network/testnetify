@@ -24,6 +24,7 @@ jobs:
         name=$(git describe --tags $(git rev-list --tags --max-count=1))
         archive=$(make lz4)
         echo "LZ4_ARTIFACT=${archive}" >> $GITHUB_ENV
+        echo "RELEASE_TAG=${name}" >> $GITHUB_ENV
     - name: Run script
       run: make run
     - uses: ncipollo/release-action@v1
