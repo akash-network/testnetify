@@ -1,4 +1,4 @@
-BINARY_VERSION          ?= v0.24.2
+BINARY_VERSION          ?= v0.24.3
 CURRENT_UPGRADE         ?= v0.24.0
 GENESIS_DEST_DIR        ?= $(CACHE_DIR)/$(CURRENT_UPGRADE)
 GENESIS_DEST            := $(GENESIS_DEST_DIR)/genesis.json
@@ -6,6 +6,7 @@ GENESIS_ORIG            ?= $(GENESIS_DEST_DIR)/genesis.orig.json
 LZ4_ARCHIVE             ?= $(GENESIS_DEST_DIR)/genesis.json.tar.lz4
 
 export GENESIS_ORIG
+#export SNAPSHOT_URL      ?= $(PWD)/akash_12685843.tar.lz4
 
 CHAIN_TOKEN_DENOM        := uakt
 CHAIN_VALIDATOR_AMOUNT   := 20000000000000000
@@ -44,7 +45,7 @@ $(GENESIS_DEST_DIR):
 testnetify: $(AKASH) $(GENESIS_DEST_DIR)
 	$(AKASH) debug testnetify $(GENESIS_ORIG) $(GENESIS_DEST) -c config-$(CURRENT_UPGRADE).json
 
-archive:# testnetify
+archive: testnetify
 	(cd $(GENESIS_DEST_DIR); tar cvf - genesis.json | lz4 -f - $(LZ4_ARCHIVE))
 	
 .PHONY: clean

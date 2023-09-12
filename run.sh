@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -o pipefail
 
 AKASH_MONIKER=node-tmp1
 AKASH_STATESYNC_ENABLE=false
@@ -61,7 +62,8 @@ data_path=$AKASH_HOME/data
 rm -rf "$AKASH_HOME/config"
 rm -rf "$data_path"
 
-${AKASH} init "$AKASH_MONIKER"
+${AKASH} init "$AKASH_MONIKER" > /dev/null 2>&1
+
 rm "$AKASH_HOME/config/genesis.json"
 
 GENESIS_URL="$(echo "$CHAIN_METADATA" | jq -r '.genesis.genesis_url? // .genesis?')"
@@ -155,4 +157,4 @@ if [[ "$AKASH_STATESYNC_ENABLE" == true ]]; then
 fi
 
 echo "exporting state to [${GENESIS_ORIG}]"
-${AKASH} export --home="${AKASH_HOME}" > "${GENESIS_ORIG}"
+${AKASH} export --log_level=panic --home="${AKASH_HOME}" --to-file "${GENESIS_ORIG}"
