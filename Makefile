@@ -46,7 +46,7 @@ testnetify: $(AKASH) $(GENESIS_DEST_DIR)
 	$(AKASH) debug testnetify $(GENESIS_ORIG) $(GENESIS_DEST) -c config-$(CURRENT_UPGRADE).json
 
 archive: testnetify
-	(cd $(GENESIS_DEST_DIR); tar cvf - genesis.json | lz4 -f - $(LZ4_ARCHIVE))
+	(cd $(GENESIS_DEST_DIR); $(TAR) cvf - genesis.json | lz4 -f - $(LZ4_ARCHIVE))
 	
 .PHONY: clean
 clean:
