@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: install dependencies
+    - name: Install dependencies
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
         packages: lz4 pv wget jq

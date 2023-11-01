@@ -1,5 +1,3 @@
-BINARY_VERSION          ?= v0.26.1
-CURRENT_UPGRADE         ?= v0.26.0
 GENESIS_DEST_DIR        ?= $(CACHE_DIR)/$(CURRENT_UPGRADE)
 GENESIS_DEST            := $(GENESIS_DEST_DIR)/genesis.json
 GENESIS_ORIG            ?= $(GENESIS_DEST_DIR)/genesis.orig.json
@@ -10,9 +8,6 @@ export GENESIS_ORIG
 CHAIN_TOKEN_DENOM        := uakt
 CHAIN_VALIDATOR_AMOUNT   := 20000000000000000
 CHAIN_VALIDATOR_DELEGATE := 15000000000000000
-
-BIN_DIR         := $(CACHE_BIN)/$(BINARY_VERSION)
-export AKASH    := $(BIN_DIR)/akash
 
 cache_init      := $(CACHE_DIR)/.init
 
