@@ -19,6 +19,8 @@ jobs:
         packages: lz4 pv wget jq
     - name: set environment
       uses: HatsuneMiku3939/direnv-action@v1
+    - name: Clean
+      run: make clean
     - name: get current upgrade name
       run: |
         name=$(git describe --tags $(git rev-list --tags --max-count=1))
