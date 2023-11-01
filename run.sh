@@ -77,7 +77,7 @@ mkdir -p "$data_path"
 cd "$data_path"
 
 if [ ! "$SNAPSHOT_URL" ]; then
-    SNAPSHOT_URL=$(wget https://polkachu.com/api/v1/chains/akash/snapshot -qO - 2>&1 | jq -r '.snapshot.url')
+    SNAPSHOT_URL=$(wget https://polkachu.com/api/v2/chain_snapshots/akash/mainnet -qO - 2>&1 | jq -r '.snapshot.url')
 fi
 
 if [ "$SNAPSHOT_URL" ]; then
