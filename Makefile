@@ -62,3 +62,7 @@ run: $(AKASH) $(GENESIS_DEST_DIR) $(GENESIS_ORIG) archive
 .PHONY: lz4
 lz4:
 	@echo "$(LZ4_ARCHIVE)"
+
+.PHONY: release
+release:
+	gh release upload $(CURRENT_UPGRADE) $(LZ4_ARCHIVE) --clobber
