@@ -5,54 +5,28 @@
 - `direnv` installed and hooked to shell
 - `direnv allow` executed in the project dir
 
-```sh
-export GENESIS_ORIG=genesis.json
-```
-## Export current state into genesis.json
+**NOTE** if planning to release from local machine, make sure `gh` tool is installed
 
-```sh
-akash export --home=<akash home> > $(GENESIS_ORIG)
-```
+## Resource requirements
+Testnetify process is rather resource demanding and thus has to run on self-hosted running.
+If `testnetify` command fails during GH actions,
+most likely due to OOM. So the first cure is to increase amount of available memory
+Currently working hw config is:
+- 2vCPU
+- 32GB RAM
 
-## Patch and archive
-
-```sh
-make archive
-```
-
-## Deploy result
-
-Archived genesis is `genesis.json.tar.lz4`
-
-## CI: Github Actions
-
-Exports the Akash AppState and publishes it under Releases page of the this repo.
-
-## Workflow
-
-- gh runner runs on akash (= cheap);
-- uses state-sync against our RPC node `https://rpc.akashnet.net:443` (= fast sync under `7-30` minutes);
-- akash halts at the last_height+5 via `--halt-height` arg (= graceful stop);
-- preconfigures node ID `b2127168256b4f34dc1ab20939e5f7fd1d8db466` so we can add it as `AKASH_P2P_UNCONDITIONAL_PEER_IDS` to our RPC;
-- exports the state (about `5` minutes);
-- applies `make archive` (this repo);
-- publishes it as the release - https://github.com/akash-network/testnetify/releases
-
-## GH Runner
-
-You must use a self-hosted GH runner for the GH action job to complete.
-
-Reqs: 2 CPU, 16 GiB RAM, 20 GiB storage
-
-- SDL https://github.com/ovrclk/akash-deployments/blob/main/testnetify-gh-runner.yaml
-- Docs https://github.com/ovrclk/engineering/wiki/Akash-Deployments
-
-## Next steps
-
-If Github API allows, we can probably even automate the GH runner deployment & registration.
+## Adding new network version
+1. Find new upgrade name. For this example we'll use `v0.28.0`
+2. copy last network config-vX.Y.Z.json (`v0.26.0.json` in this example) to with a new network name
+   ```shell
+   cp config-v0.26.0.json config-v0.28.0.json
+3. check if carried over validator's configuration fits network needs (in 99% it does)
+4. run testnetify `make run`
+5. if previous step successful commit and push new config
 
 ## Manual upload
 
 ```shell
-gh release upload <tag> .cache/<tag>/genesis.json.tar.lz4
+make run
+make release
 ```
