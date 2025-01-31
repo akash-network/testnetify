@@ -66,7 +66,7 @@ ${AKASH} init "$AKASH_MONIKER" > /dev/null 2>&1
 
 rm "$AKASH_HOME/config/genesis.json"
 
-GENESIS_URL="$(echo "$CHAIN_METADATA" | jq -r '.genesis.genesis_url? // .genesis?')"
+GENESIS_URL="$(echo "$CHAIN_METADATA" | jq -r '.codebase.genesis.genesis_url? // .genesis?')"
 curl -sfL "$GENESIS_URL" > "$AKASH_HOME/config/genesis.json"
 
 rm -rf "$data_path"
