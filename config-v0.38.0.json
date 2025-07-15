@@ -1,0 +1,113 @@
+{
+    "chain_id": "localakash",
+    "accounts": {
+        "add": [
+            {
+                "address": "akash1dge0lcc5rqxkw52rgav4q0fyhx7arcufmrkyww",
+                "pubkey": {
+                    "@type": "/cosmos.crypto.secp256k1.PubKey",
+                    "key": "Ap0sauGRfAcjXjL0k+Oyp+mZmR3Tono8CrhrFXWJtlG2"
+                },
+                "coins": [
+                    "2000000000000000uakt"
+                ]
+            },
+            {
+                "address": "akash18tdthhtcvfmzl60r0r6gvjdcelc0wtwfumqsdz",
+                "pubkey": {
+                    "@type": "/cosmos.crypto.secp256k1.PubKey",
+                    "key": "Awqn0sK+os5kd5pT0tYiJiqXvfd+6GVXE+Er2cm3OeGW"
+                },
+                "coins": [
+                    "2000000uakt"
+                ]
+            },
+            {
+                "address": "akash1sdv7sz7y4j2z9l6nyrk9g4ztjh9dvml75gfgra",
+                "pubkey": {
+                    "@type": "/cosmos.crypto.secp256k1.PubKey",
+                    "key": "Ain2FK1fdzLbzLosg6vzdduwnAPxk57a06yQvYIjdyRD"
+                },
+                "coins": [
+                    "2000000uakt"
+                ]
+            }
+        ]
+    },
+    "validators": {
+        "add": [
+            {
+                "name": "upgrade-tester-1",
+                "operator": "akash1dge0lcc5rqxkw52rgav4q0fyhx7arcufmrkyww",
+                "pubkey": {
+                    "@type": "/cosmos.crypto.ed25519.PubKey",
+                    "key": "d0sS1j4EdrAkBkpFXb50lkibj7+Kwh9UtGPO5O35Pes="
+                },
+                "rates": {
+                    "rate": "0.05",
+                    "maxRate": "0.8",
+                    "maxChangeRate": "0.1"
+                },
+                "bonded": true,
+                "delegators": [
+                    {
+                        "address": "akash1dge0lcc5rqxkw52rgav4q0fyhx7arcufmrkyww",
+                        "coins": [
+                            "1800000000000000uakt"
+                        ]
+                    }
+                ]
+            },
+            {
+                "operator": "akash18tdthhtcvfmzl60r0r6gvjdcelc0wtwfumqsdz",
+                "name": "upgrade-tester-2",
+                "pubkey": {
+                    "@type": "/cosmos.crypto.ed25519.PubKey",
+                    "key": "hkQAh/9Xg05tcv2Mry2Yv6IxQiibySOZYGYcz35IEfw="
+                },
+                "rates": {
+                    "rate": "0.05",
+                    "maxRate": "0.8",
+                    "maxChangeRate": "0.1"
+                },
+                "bonded": true,
+                "delegators": [
+                    {
+                        "address": "akash1dge0lcc5rqxkw52rgav4q0fyhx7arcufmrkyww",
+                        "coins": [
+                            "20000000000000uakt"
+                        ]
+                    }
+                ]
+            },
+            {
+                "operator": "akash1sdv7sz7y4j2z9l6nyrk9g4ztjh9dvml75gfgra",
+                "name": "upgrade-tester-3",
+                "pubkey": {
+                    "@type": "/cosmos.crypto.ed25519.PubKey",
+                    "key": "hwW2WpQRLfnxMYQWnxFyDd0X6LFegx2wcEBVnBXfNNM="
+                },
+                "rates": {
+                    "rate": "0.05",
+                    "maxRate": "0.8",
+                    "maxChangeRate": "0.1"
+                },
+                "bonded": true,
+                "delegators": [
+                    {
+                        "address": "akash1dge0lcc5rqxkw52rgav4q0fyhx7arcufmrkyww",
+                        "coins": [
+                            "20000000000000uakt"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "gov": {
+        "voting_params": {
+            "voting_period": "60s"
+        }
+    }
+}
+
