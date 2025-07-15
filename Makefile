@@ -45,12 +45,11 @@ $(GENESIS_DEST_DIR):
 testnetify: $(AKASH) $(GENESIS_DEST_DIR)
 	$(AKASH) debug testnetify $(GENESIS_ORIG) $(GENESIS_DEST) -c config-$(CURRENT_UPGRADE).json
 
-archive: testnetify
+$(GENESIS_DEST): $(GENESIS_ORIG)
+	$(AKASH) debug testnetify $(GENESIS_ORIG) $(GENESIS_DEST) -c config-$(CURRENT_UPGRADE).json
+
+$(LZ4_ARCHIVE): $(GENESIS_DEST)
 	(cd $(GENESIS_DEST_DIR); $(TAR) cvf - genesis.json | lz4 -f - $(LZ4_ARCHIVE))
-	
-.PHONY: clean
-clean:
-	rm -rf $(CACHE_DIR)
 
 $(TESTNETIFY_CONFIG): $(GENESIS_BINARY) $(GOMPLATE) $(GENESIS_CONFIG_TEMPLATE)
 	$(ROOT_DIR)/scripts/testnetify-render-config.sh \
@@ -61,6 +60,13 @@ $(TESTNETIFY_CONFIG): $(GENESIS_BINARY) $(GOMPLATE) $(GENESIS_CONFIG_TEMPLATE)
 
 $(GENESIS_ORIG): $(AKASH)
 	./run.sh
+
+.PHONY: archive
+archive: $(LZ4_ARCHIVE)
+
+.PHONY: clean
+clean:
+	rm -rf $(CACHE_DIR)
 
 .PHONY: run
 run: $(AKASH) $(GENESIS_DEST_DIR) $(GENESIS_ORIG) archive
