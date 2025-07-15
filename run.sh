@@ -3,6 +3,11 @@
 set -e
 set -o pipefail
 
+if [ -z "$AKASH_HOME" ]; then
+	echo "AKASH_HOME is not set"
+	exit 1
+fi
+
 AKASH_MONIKER=node-tmp1
 AKASH_STATESYNC_ENABLE=false
 
@@ -126,7 +131,10 @@ fi
 popd
 
 # STATE-SYNC
-AKASH_NODE="$(echo "$CHAIN_METADATA" | jq -r .apis.rpc[0].address)"
+if [ -z "${AKASH_NODE}" ]; then
+	AKASH_NODE="$(echo "$CHAIN_METADATA" | jq -r .apis.rpc[0].address)"
+fi
+
 AKASH_CHAIN_ID=$(curl -Ls "$AKASH_NODE"/status | jq -r '.result.node_info.network')
 MAINNET_PEERS="$(echo "$CHAIN_METADATA" | jq -r '.peers.persistent_peers | map(.id+"@"+.address) | join(",")')"
 

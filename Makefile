@@ -3,6 +3,12 @@ GENESIS_DEST            := $(GENESIS_DEST_DIR)/genesis.json
 GENESIS_ORIG            ?= $(GENESIS_DEST_DIR)/genesis.orig.json
 LZ4_ARCHIVE             ?= $(GENESIS_DEST_DIR)/genesis.json.tar.lz4
 
+GH                      ?= gh
+
+ifneq ($(shell which op),)
+	GH := op plugin run -- gh
+endif
+
 export GENESIS_ORIG
 
 CHAIN_TOKEN_DENOM        := uakt
@@ -65,4 +71,4 @@ lz4:
 
 .PHONY: release
 release:
-	gh release upload $(CURRENT_UPGRADE) $(LZ4_ARCHIVE) --clobber
+	$(GH) release upload $(CURRENT_UPGRADE) $(LZ4_ARCHIVE) --clobber
